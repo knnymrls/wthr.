@@ -34,9 +34,65 @@
 
 <div class="forecast-container">
   {#if isLoading}
-    <p>Loading...</p>
+    <div class="forecast-details">
+      <div class="forecast-day">
+        <h3>...</h3>
+        <img
+          class="weather-icon"
+          src={getWeatherIcon(1, 1)}
+          alt="Weather Icon"
+        />
+        <p>...</p>
+      </div>
+      <div class="forecast-day">
+        <h3>...</h3>
+        <img
+          class="weather-icon"
+          src={getWeatherIcon(1, 1)}
+          alt="Weather Icon"
+        />
+        <p>...</p>
+      </div>
+      <div class="forecast-day">
+        <h3>...</h3>
+        <img
+          class="weather-icon"
+          src={getWeatherIcon(1, 1)}
+          alt="Weather Icon"
+        />
+        <p>...</p>
+      </div>
+    </div>
   {:else if isError}
-    <p>Error fetching forecast data. Please try again.</p>
+    <div class="forecast-details">
+      <div class="forecast-day">
+        <h3>N/A</h3>
+        <img
+          class="weather-icon"
+          src={getWeatherIcon(1, 1)}
+          alt="Weather Icon"
+        />
+        <p>N/A</p>
+      </div>
+      <div class="forecast-day">
+        <h3>N/A</h3>
+        <img
+          class="weather-icon"
+          src={getWeatherIcon(1, 1)}
+          alt="Weather Icon"
+        />
+        <p>N/A</p>
+      </div>
+      <div class="forecast-day">
+        <h3>N/A</h3>
+        <img
+          class="weather-icon"
+          src={getWeatherIcon(1, 1)}
+          alt="Weather Icon"
+        />
+        <p>N/A</p>
+      </div>
+    </div>
   {:else if forecastData}
     <div class="forecast-details">
       {#each forecastData as day}
@@ -63,7 +119,8 @@
 
   .forecast-details {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
+    gap: 3rem;
   }
   .forecast-day {
     display: flex;
