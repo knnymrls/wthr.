@@ -19,7 +19,6 @@
       isLoading = false;
     } catch (error) {
       console.error("Fetch error: ", error);
-      cityName = "New York";
     }
   }
 
