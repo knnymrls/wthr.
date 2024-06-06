@@ -19,8 +19,7 @@
       isLoading = false;
     } catch (error) {
       console.error("Fetch error: ", error);
-      isError = true;
-      isLoading = false;
+      cityName = "New York";
     }
   }
 

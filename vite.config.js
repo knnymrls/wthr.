@@ -4,7 +4,7 @@ import tailwindcss from 'tailwindcss';
 import autoprefixer from 'autoprefixer';
 
 export default defineConfig({
-  base: "/wthr/",
+  base: "/wthr./",
   plugins: [svelte()],
   css: {
     postcss: {
