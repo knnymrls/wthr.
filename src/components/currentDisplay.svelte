@@ -83,7 +83,7 @@
   <div class="search">
     <input type="text" bind:value={cityName} placeholder="Enter city name" />
     <button on:click={loadWeatherByLocation}>
-      <img src="src\assets\search-globe-svgrepo-com.svg" alt="" />
+      <img src="public\assets\search-globe-svgrepo-com.svg" alt="" />
       <p>Search by Location</p>
     </button>
   </div>
