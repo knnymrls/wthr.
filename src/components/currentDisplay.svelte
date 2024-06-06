@@ -1,11 +1,12 @@
 <!-- JAVASCRIPT -->
 <script>
   import { onMount } from "svelte";
-  import SecondaryWeatherDisplay from "./secondaryWeatherDisplay.svelte";
+  import SecondaryWeatherDisplay from "./forecastDisplay.svelte";
   import { fetchWeather } from "../util/fetchApi";
   import { getWeatherIcon } from "../util/getWeatherIcon";
   import Logo from "./logo.svelte";
   import { getCurrentLocation } from "../util/getCurrentLocation";
+  import ForecastDisplay from "./forecastDisplay.svelte";
 
   let weatherData = null;
   let isLoading = true;
@@ -13,8 +14,21 @@
   let cityName = "New York";
   let userLocation = null;
 
+  // Function to save weather data to local storage
+  function saveWeatherToLocalStorage(data) {
+    localStorage.setItem("weatherData", JSON.stringify(data));
+  }
+
+  // Function to load weather data from local storage
+  function loadWeatherFromLocalStorage() {
+    const data = localStorage.getItem("weatherData");
+    return data ? JSON.parse(data) : null;
+  }
+
   // Fetch weather data based on user's current location
   async function loadWeatherByLocation() {
+    isLoading = true;
+    isError = false;
     try {
       const location = await getCurrentLocation();
       userLocation = location;
@@ -23,6 +37,7 @@
       );
       weatherData = await response.json();
       cityName = weatherData.location.name;
+      saveWeatherToLocalStorage(weatherData); // Save to local storage
       isLoading = false;
     } catch (error) {
       console.error("Error fetching weather data: ", error);
@@ -37,6 +52,7 @@
     isError = false;
     try {
       weatherData = await fetchWeather(city);
+      saveWeatherToLocalStorage(weatherData); // Save to local storage
       isLoading = false;
     } catch (error) {
       console.error("Fetch error: ", error);
@@ -45,9 +61,16 @@
     }
   }
 
-  // Fetch weather data on mount using the user's location
+  // Fetch weather data on mount using the user's location or load from local storage
   onMount(() => {
-    loadWeatherByLocation();
+    const savedData = loadWeatherFromLocalStorage();
+    if (savedData) {
+      weatherData = savedData;
+      cityName = weatherData.location.name;
+      isLoading = false;
+    } else {
+      loadWeatherByLocation();
+    }
   });
 
   $: cityName, loadWeather(cityName);
@@ -57,12 +80,44 @@
 
 <!-- HTML -->
 <main>
-  <input type="text" bind:value={cityName} placeholder="Enter city name" />
+  <div class="search">
+    <input type="text" bind:value={cityName} placeholder="Enter city name" />
+    <button on:click={loadWeatherByLocation}>
+      <img src="src\assets\search-globe-svgrepo-com.svg" alt="" />
+      <p>Search by Location</p>
+    </button>
+  </div>
 
   {#if isLoading}
-    <p>Loading...</p>
+    <div class="weather-details">
+      <h2>Loading</h2>
+      <div class="weather-info">
+        <img
+          class="weather-icon"
+          src={getWeatherIcon(1, 1)}
+          alt="Weather Icon"
+        />
+        <div class="current-data wrapper">
+          <p class="temp">Loading</p>
+          <p>Loading</p>
+        </div>
+      </div>
+    </div>
   {:else if isError}
-    <p>Error fetching weather data. Please try again.</p>
+    <div class="weather-details">
+      <h2>N/A</h2>
+      <div class="weather-info">
+        <img
+          class="weather-icon"
+          src={getWeatherIcon(1, 1)}
+          alt="Weather Icon"
+        />
+        <div class="current-data wrapper">
+          <p class="temp">N/A</p>
+          <p>N/A</p>
+        </div>
+      </div>
+    </div>
   {:else if weatherData}
     <div class="weather-details">
       <h2>{weatherData.location.name}</h2>
@@ -83,7 +138,7 @@
     </div>
   {/if}
 
-  <SecondaryWeatherDisplay {cityName} />
+  <ForecastDisplay {cityName} />
   <Logo />
 </main>
 
@@ -144,7 +199,49 @@
     font-weight: 500;
   }
 
+  .search {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    width: 85%;
+  }
+
+  .search img {
+    height: 1.25rem;
+    width: auto;
+  }
+
+  button {
+    background: var(--primary-text-color);
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: end;
+    gap: 0.5rem;
+    border-radius: 10px;
+    min-width: 35%;
+    max-width: 85%;
+    justify-content: center;
+  }
+
+  .search p {
+    font-family: azo-sans-web, sans-serif;
+    font-size: 1rem;
+    color: var(--background-color);
+  }
+
   .weather-icon {
     width: 225px;
+  }
+
+  @media (max-width: 500px) {
+    button {
+      min-width: 100%;
+    }
+    input {
+      min-width: 100%;
+    }
   }
 </style>

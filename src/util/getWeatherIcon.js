@@ -61,7 +61,7 @@ export function getWeatherIcon(conditionCode, is_day) {
     console.log("Condition code:", conditionCode)
     if (!condition) {
         console.log("Condition code not found:", conditionCode);
-        return "src/assets/weather-icons/design/fill/animation-ready/default.svg"; // Default icon if condition code is not found
+        return "src/assets/weather icons/design/fill/animation-ready/clear-day.svg"; // Default icon if condition code is not found
     }
     console.log("Condition:", condition);
 

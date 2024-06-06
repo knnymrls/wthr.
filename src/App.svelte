@@ -1,34 +1,10 @@
 <script>
-  import MainWeatherDisplay from "./components/mainWeatherDisplay.svelte";
-  let isDarkMode = false;
-
-  function toggleDarkMode() {
-    isDarkMode = !isDarkMode;
-  }
-
-  // Reactive statement to update the root element's class
-  $: {
-    const root = document.documentElement;
-    if (isDarkMode) {
-      root.classList.add("dark-mode");
-    } else {
-      root.classList.remove("dark-mode");
-    }
-  }
+  import CurrentDisplay from "./components/currentDisplay.svelte";
 </script>
 
 <main>
   <div class="quick container">
-    <MainWeatherDisplay />
-  </div>
-  <div class="main wrapper">
-    <div class="stat container"></div>
-    <div class="extra wrapper">
-      <div class="trend container"></div>
-      <div class="settings container">
-        <button on:click={toggleDarkMode}>Toggle Dark Mode</button>
-      </div>
-    </div>
+    <CurrentDisplay />
   </div>
 </main>
 
@@ -56,19 +32,19 @@
   }
 
   main {
-    display: grid;
-    grid-template-columns: 2fr 5fr;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: var(--background-color);
     gap: 2rem;
     height: 100vh;
     width: 100vw;
-    padding: 4rem;
-    box-sizing: border-box;
   }
 
   .container {
     border-radius: 1rem;
     background-color: var(--container-background);
+    width: 30vw;
     box-shadow:
       rgba(14, 63, 126, 0.06) 0px 0px 0px 1px,
       rgba(42, 51, 70, 0.03) 0px 1px 1px -0.5px,
@@ -88,44 +64,20 @@
     flex-direction: column;
     align-items: center;
     padding: 4rem 3rem;
+    width: 50vw;
     justify-content: space-between;
   }
 
-  .main.wrapper {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 2rem;
+  @media (max-width: 850px) {
+    .quick.container {
+      width: 80vw;
+    }
   }
 
-  .stat.container {
-    padding: 1rem;
-  }
-
-  .extra.wrapper {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-  }
-
-  .trend.container {
-    padding: 1rem;
-  }
-
-  .settings.container {
-    padding: 1rem;
-  }
-
-  button {
-    background-color: var(--button-background);
-    color: var(--button-color);
-    transition:
-      background-color 0.3s,
-      color 0.3s;
-  }
-
-  @media (max-width: 1200px) {
-    main {
-      grid-template-columns: 1fr;
+  @media (max-width: 500px) {
+    .quick.container {
+      width: 95vw;
+      height: 95svh;
     }
   }
 </style>
