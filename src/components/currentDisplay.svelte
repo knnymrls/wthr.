@@ -1,7 +1,6 @@
 <!-- JAVASCRIPT -->
 <script>
   import { onMount } from "svelte";
-  import SecondaryWeatherDisplay from "./forecastDisplay.svelte";
   import { fetchWeather } from "../util/fetchApi";
   import { getWeatherIcon } from "../util/getWeatherIcon";
   import Logo from "./logo.svelte";
@@ -83,7 +82,7 @@
   <div class="search">
     <input type="text" bind:value={cityName} placeholder="Enter city name" />
     <button on:click={loadWeatherByLocation}>
-      <img src="public\assets\search-globe-svgrepo-com.svg" alt="" />
+      <img src="assets/search-globe-svgrepo-com.svg" alt="" />
       <p>Search by Location</p>
     </button>
   </div>
@@ -148,6 +147,7 @@
 
 <!-- CSS -->
 <style>
+  /* General Styles */
   main {
     display: flex;
     flex-direction: column;
@@ -155,7 +155,6 @@
     align-items: center;
     height: 100%;
     width: 100%;
-    gap: 3rem;
     text-align: center;
     color: var(--primary-text-color);
   }
@@ -218,7 +217,7 @@
     cursor: pointer;
     padding: 0.5rem 1rem;
     display: flex;
-    align-items: end;
+    align-items: center;
     gap: 0.5rem;
     border-radius: 10px;
     min-width: 35%;
@@ -236,12 +235,60 @@
     width: 225px;
   }
 
+  /* Media Queries */
+
+  /* Mobile Devices (up to 500px) */
   @media (max-width: 500px) {
+    main {
+      gap: 2rem;
+    }
+    .search {
+      width: 100%;
+    }
+    .weather-details {
+      gap: 1rem;
+    }
     button {
       min-width: 100%;
+      max-width: 100%;
     }
     input {
-      min-width: 100%;
+      width: 100%;
+    }
+    .weather-icon {
+      width: 150px;
+    }
+    .temp {
+      font-size: 3rem;
+    }
+    h2 {
+      font-size: 2rem;
+    }
+  }
+
+  /* Tablet Devices (501px to 768px) */
+  @media (min-width: 501px) and (max-width: 768px) {
+    main {
+      padding: 1.5rem;
+    }
+    .search {
+      width: 90%;
+    }
+    button {
+      min-width: 50%;
+      max-width: 90%;
+    }
+    input {
+      width: 90%;
+    }
+    .weather-icon {
+      width: 200px;
+    }
+    .temp {
+      font-size: 2.5rem;
+    }
+    h2 {
+      font-size: 2.25rem;
     }
   }
 </style>

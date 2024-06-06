@@ -37,8 +37,8 @@
     align-items: center;
     background-color: var(--background-color);
     gap: 2rem;
-    height: 100vh;
-    width: 100vw;
+    height: 100svh;
+    width: 100svw;
   }
 
   .container {
@@ -65,19 +65,29 @@
     align-items: center;
     padding: 4rem 3rem;
     width: 50vw;
+    height: 90%;
     justify-content: space-between;
   }
 
   @media (max-width: 850px) {
     .quick.container {
-      width: 80vw;
+      width: 100%;
+      height: 100%;
+    }
+    main {
+      height: 100svh;
+      padding: 3rem;
     }
   }
 
   @media (max-width: 500px) {
     .quick.container {
-      width: 95vw;
-      height: 95svh;
+      width: 100%;
+      height: 100%;
+    }
+    main {
+      height: auto;
+      padding: 1rem;
     }
   }
 </style>
